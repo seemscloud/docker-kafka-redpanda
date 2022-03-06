@@ -6,8 +6,38 @@ services:
     hostname: redpanda-root
     environment:
       - NODE_ID=0
+      - NODE_TYPE=root
     build:
       args:
         - APP_VERSION=21.11.9-1-ad9c5af5
         - APP_REDPANDA_REPO=nzc4ZYQK3WRGd9sy
       context: ./redpanda
+  redpanda-node01:
+    container_name: redpanda-node01
+    hostname: redpanda-node01
+    environment:
+      - NODE_ID=1
+      - NODE_TYPE=node
+      - ROOT_NODE=redpanda-root
+    build:
+      args:
+        - APP_VERSION=21.11.9-1-ad9c5af5
+        - APP_REDPANDA_REPO=nzc4ZYQK3WRGd9sy
+      context: ./redpanda
+  redpanda-node02:
+    container_name: redpanda-node02
+    hostname: redpanda-node02
+    environment:
+      - NODE_ID=2
+      - NODE_TYPE=node
+      - ROOT_NODE=redpanda-root
+    build:
+      args:
+        - APP_VERSION=21.11.9-1-ad9c5af5
+        - APP_REDPANDA_REPO=nzc4ZYQK3WRGd9sy
+      context: ./redpanda
+
+volumes:
+  redpanda-data:
+  redpanda-node01:
+  redpanda-node02:

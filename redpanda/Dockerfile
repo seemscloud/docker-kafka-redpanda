@@ -18,7 +18,7 @@ ENV PATH="${APP_DIR}/bin:${PATH}"
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && \
-    apt-get install wget unzip curl apt-transport-https ca-certificates gnupg -y
+    apt-get install wget unzip curl apt-transport-https ca-certificates gnupg dnsutils -y
 
 RUN groupadd -g "${APP_GID}" "${APP_GROUP}" && \
     useradd -u "${APP_UID}" -g "${APP_GID}" -s /bin/bash -m -d "${APP_DIR}" "${APP_USER}"
