@@ -7,8 +7,6 @@ services:
     environment:
       - NODE_ID=0
       - NODE_TYPE=root
-    ports:
-      - "9644:9644"
     build:
       args:
         - APP_VERSION=21.11.9-1-ad9c5af5
