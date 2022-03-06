@@ -7,6 +7,8 @@ services:
     environment:
       - NODE_ID=0
       - NODE_TYPE=root
+    ports:
+      - "9644:9644"
     build:
       args:
         - APP_VERSION=21.11.9-1-ad9c5af5
@@ -36,8 +38,3 @@ services:
         - APP_VERSION=21.11.9-1-ad9c5af5
         - APP_REDPANDA_REPO=nzc4ZYQK3WRGd9sy
       context: ./redpanda
-
-volumes:
-  redpanda-data:
-  redpanda-node01:
-  redpanda-node02:
