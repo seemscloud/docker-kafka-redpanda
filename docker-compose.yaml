@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  redpanda-root:
+    container_name: redpanda-root
+    hostname: redpanda-root
+    environment:
+      - NODE_ID=0
+    build:
+      args:
+        - APP_VERSION=21.11.9-1-ad9c5af5
+        - APP_REDPANDA_REPO=nzc4ZYQK3WRGd9sy
+      context: ./redpanda

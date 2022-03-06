@@ -1,0 +1,35 @@
+config_file: /opt/redpanda/redpanda.yaml
+pandaproxy: {}
+redpanda:
+  admin:
+  - address: 0.0.0.0
+    port: 9644
+  data_directory: /opt/redpanda/data
+  developer_mode: false
+  kafka_api:
+  - address: 0.0.0.0
+    port: 9092
+  node_id: 0
+  rpc_server:
+    address: 0.0.0.0
+    port: 33145
+  seed_servers: []
+rpk:
+  coredump_dir: /opt/redpanda/coredump
+  enable_memory_locking: false
+  enable_usage_stats: false
+  overprovisioned: false
+  tune_aio_events: true
+  tune_ballast_file: true
+  tune_clocksource: true
+  tune_coredump: false
+  tune_cpu: true
+  tune_disk_irq: true
+  tune_disk_nomerges: true
+  tune_disk_scheduler: true
+  tune_disk_write_cache: true
+  tune_fstrim: false
+  tune_network: true
+  tune_swappiness: true
+  tune_transparent_hugepages: false
+schema_registry: {}
