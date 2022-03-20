@@ -1,7 +1,6 @@
 #!/bin/bash
 
-sleep 2
-
+export NODE_ID=${HOSTNAME##*-};
 export NODE_IP=$(cat /etc/hosts | grep "${HOSTNAME}" | awk '{print $1}')
 
 (

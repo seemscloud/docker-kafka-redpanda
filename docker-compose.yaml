@@ -1,14 +1,14 @@
 version: '3.9'
 
 services:
-  redpanda01:
-    container_name: redpanda01
-    hostname: redpanda01
+  redpanda-0:
+    container_name: redpanda-0
+    hostname: redpanda-0
+    env_file:
+      - default.env
     environment:
-      - NODE_ID=0
       - IS_LEADER=yes
-      - NODES=redpanda01,redpanda02,redpanda03
-      - RPC_PORT=33145
+      - RACK_NAME=Alpha
     build:
       args:
         - APP_VERSION=21.11.9-1-ad9c5af5
@@ -16,14 +16,14 @@ services:
       context: ./redpanda
 #    volumes:
 #      - redpanda01-data:/opt/redpanda/data:rw
-  redpanda02:
-    container_name: redpanda02
-    hostname: redpanda02
+  redpanda-1:
+    container_name: redpanda-1
+    hostname: redpanda-1
+    env_file:
+      - default.env
     environment:
-      - NODE_ID=1
       #- IS_LEADER=yes
-      - NODES=redpanda01,redpanda02,redpanda03
-      - RPC_PORT=33145
+      - RACK_NAME=Beta
     build:
       args:
         - APP_VERSION=21.11.9-1-ad9c5af5
@@ -31,14 +31,14 @@ services:
       context: ./redpanda
 #    volumes:
 #      - redpanda02-data:/opt/redpanda/data:rw
-  redpanda03:
-    container_name: redpanda03
-    hostname: redpanda03
+  redpanda-2:
+    container_name: redpanda-2
+    hostname: redpanda-2
+    env_file:
+      - default.env
     environment:
-      - NODE_ID=2
       #- IS_LEADER=yes
-      - NODES=redpanda01,redpanda02,redpanda03
-      - RPC_PORT=33145
+      - RACK_NAME=Gamma
     build:
       args:
         - APP_VERSION=21.11.9-1-ad9c5af5
@@ -46,7 +46,7 @@ services:
       context: ./redpanda
 #    volumes:
 #      - redpanda03-data:/opt/redpanda/data:rw
-#
+
 #volumes:
 #  redpanda01-data:
 #  redpanda02-data:

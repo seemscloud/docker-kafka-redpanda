@@ -1,19 +1,25 @@
 config_file: /opt/redpanda/redpanda.yaml
+
+organization: ${ORGANIZATION_ID}
+cluster_id: ${CLUSTER_ID}
+
 redpanda:
-  cluster_id: "cluster"
+  cluster_id: ${CLUSTER_ID}
+  rack: ${RACK_NAME}
   node_id: ${NODE_ID}
-  data_directory: "/opt/redpanda/data"
+  
+  data_directory: /opt/redpanda/data
 
   developer_mode: false
   enable_admin_api: false
   disable_metrics: false
 
-  auto_create_topics_enabled: true
+  auto_create_topics_enabled: false
   default_topic_replications: 3
   default_topic_partitions: 8
 
   admin:
-    address: ${NODE_IP}
+    address: 127.0.0.1
     port: 9644
   rpc_server:
     address: ${NODE_IP}
@@ -25,16 +31,16 @@ redpanda:
     - name: internal
       address: 127.0.0.1
       port: 9092
-    - name: external
-      address: ${NODE_IP}
-      port: 19092
+#    - name: external
+#      address: ${NODE_IP}
+#      port: 19092
   advertised_kafka_api:
     - name: internal
       address: 127.0.0.1
       port: 9092
-    - name: external
-      address: ${NODE_IP}
-      port: 19092
+#    - name: external
+#      address: ${NODE_IP}
+#      port: 19092
   seed_servers: `[ "$IS_LEADER" == "yes" ] && echo "[]"`
 `[ "$IS_LEADER" != "yes" ] && (IFS=',' ; for i in ${NODES} ; do echo -e "    - host:\n        address: $(dig +short $i)\n        port: ${RPC_PORT}" ; done)`
 pandaproxy:
@@ -42,20 +48,22 @@ pandaproxy:
     - name: internal
       address: 127.0.0.1
       port: 8082
-    - name: external
-      address: ${NODE_IP}
-      port: 18082
+#    - name: external
+#      address: ${NODE_IP}
+#      port: 18082
   advertised_pandaproxy_api:
     - name: internal
       address: 127.0.0.1
       port: 8082
-    - name: external
-      address: ${NODE_IP}
-      port: 18082
+#    - name: external
+#      address: ${NODE_IP}
+#      port: 18082
 rpk:
   coredump_dir: /opt/redpanda/coredump
+
   enable_memory_locking: false
   enable_usage_stats: false
+
   tune_aio_events: false
   tune_ballast_file: false
   tune_clocksource: false
