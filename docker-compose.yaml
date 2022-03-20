@@ -1,38 +1,53 @@
 version: '3.9'
 
 services:
-  redpanda-root:
-    container_name: redpanda-root
-    hostname: redpanda-root
+  redpanda01:
+    container_name: redpanda01
+    hostname: redpanda01
     environment:
       - NODE_ID=0
-      - NODE_TYPE=root
+      - IS_LEADER=yes
+      - NODES=redpanda01,redpanda02,redpanda03
+      - RPC_PORT=33145
     build:
       args:
         - APP_VERSION=21.11.9-1-ad9c5af5
         - APP_REDPANDA_REPO=nzc4ZYQK3WRGd9sy
       context: ./redpanda
-  redpanda-node01:
-    container_name: redpanda-node01
-    hostname: redpanda-node01
+#    volumes:
+#      - redpanda01-data:/opt/redpanda/data:rw
+  redpanda02:
+    container_name: redpanda02
+    hostname: redpanda02
     environment:
       - NODE_ID=1
-      - NODE_TYPE=node
-      - ROOT_NODE=redpanda-root
+      #- IS_LEADER=yes
+      - NODES=redpanda01,redpanda02,redpanda03
+      - RPC_PORT=33145
     build:
       args:
         - APP_VERSION=21.11.9-1-ad9c5af5
         - APP_REDPANDA_REPO=nzc4ZYQK3WRGd9sy
       context: ./redpanda
-  redpanda-node02:
-    container_name: redpanda-node02
-    hostname: redpanda-node02
+#    volumes:
+#      - redpanda02-data:/opt/redpanda/data:rw
+  redpanda03:
+    container_name: redpanda03
+    hostname: redpanda03
     environment:
       - NODE_ID=2
-      - NODE_TYPE=node
-      - ROOT_NODE=redpanda-root
+      #- IS_LEADER=yes
+      - NODES=redpanda01,redpanda02,redpanda03
+      - RPC_PORT=33145
     build:
       args:
         - APP_VERSION=21.11.9-1-ad9c5af5
         - APP_REDPANDA_REPO=nzc4ZYQK3WRGd9sy
       context: ./redpanda
+#    volumes:
+#      - redpanda03-data:/opt/redpanda/data:rw
+#
+#volumes:
+#  redpanda01-data:
+#  redpanda02-data:
+#  redpanda03-data:

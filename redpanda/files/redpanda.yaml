@@ -1,35 +1,72 @@
 config_file: /opt/redpanda/redpanda.yaml
-pandaproxy: {}
 redpanda:
-  admin:
-  - address: 0.0.0.0
-    port: 9644
-  data_directory: /opt/redpanda/data
+  cluster_id: "cluster"
+  node_id: ${NODE_ID}
+  data_directory: "/opt/redpanda/data"
+
   developer_mode: false
-  kafka_api:
-  - address: 0.0.0.0
-    port: 9092
-  node_id: 0
+  enable_admin_api: false
+  disable_metrics: false
+
+  auto_create_topics_enabled: true
+  default_topic_replications: 3
+  default_topic_partitions: 8
+
+  admin:
+    address: ${NODE_IP}
+    port: 9644
   rpc_server:
-    address: 0.0.0.0
-    port: 33145
-  seed_servers: []
+    address: ${NODE_IP}
+    port: ${RPC_PORT}
+  advertised_rpc_api:
+    address: ${NODE_IP}
+    port: ${RPC_PORT}
+  kafka_api:
+    - name: internal
+      address: 127.0.0.1
+      port: 9092
+    - name: external
+      address: ${NODE_IP}
+      port: 9093
+  advertised_kafka_api:
+    - name: internal
+      address: 127.0.0.1
+      port: 9092
+    - name: external
+      address: ${NODE_IP}
+      port: 9093
+  seed_servers: `[ "$IS_LEADER" == "yes" ] && echo "[]"`
+`[ "$IS_LEADER" != "yes" ] && (IFS=',' ; for i in ${NODES} ; do echo -e "    - host:\n        address: $(dig +short $i)\n        port: ${RPC_PORT}" ; done)`
+pandaproxy:
+  pandaproxy_api:
+    - name: internal
+      address: 127.0.0.1
+      port: 8082
+    - name: external
+      address: ${NODE_IP}
+      port: 8083
+  advertised_pandaproxy_api:
+    - name: internal
+      address: 127.0.0.1
+      port: 8082
+    - name: external
+      address: ${NODE_IP}
+      port: 8083
 rpk:
   coredump_dir: /opt/redpanda/coredump
   enable_memory_locking: false
   enable_usage_stats: false
-  overprovisioned: false
-  tune_aio_events: true
-  tune_ballast_file: true
-  tune_clocksource: true
+  tune_aio_events: false
+  tune_ballast_file: false
+  tune_clocksource: false
   tune_coredump: false
-  tune_cpu: true
-  tune_disk_irq: true
-  tune_disk_nomerges: true
-  tune_disk_scheduler: true
-  tune_disk_write_cache: true
+  tune_cpu: false
+  tune_disk_irq: false
+  tune_disk_nomerges: false
+  tune_disk_scheduler: false
+  tune_disk_write_cache: false
   tune_fstrim: false
-  tune_network: true
-  tune_swappiness: true
+  tune_network: false
+  tune_swappiness: false
   tune_transparent_hugepages: false
-schema_registry: {}
+schema_registry: { }
