@@ -27,14 +27,14 @@ redpanda:
       port: 9092
     - name: external
       address: ${NODE_IP}
-      port: 9093
+      port: 19092
   advertised_kafka_api:
     - name: internal
       address: 127.0.0.1
       port: 9092
     - name: external
       address: ${NODE_IP}
-      port: 9093
+      port: 19092
   seed_servers: `[ "$IS_LEADER" == "yes" ] && echo "[]"`
 `[ "$IS_LEADER" != "yes" ] && (IFS=',' ; for i in ${NODES} ; do echo -e "    - host:\n        address: $(dig +short $i)\n        port: ${RPC_PORT}" ; done)`
 pandaproxy:
@@ -44,14 +44,14 @@ pandaproxy:
       port: 8082
     - name: external
       address: ${NODE_IP}
-      port: 8083
+      port: 18082
   advertised_pandaproxy_api:
     - name: internal
       address: 127.0.0.1
       port: 8082
     - name: external
       address: ${NODE_IP}
-      port: 8083
+      port: 18082
 rpk:
   coredump_dir: /opt/redpanda/coredump
   enable_memory_locking: false
